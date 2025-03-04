@@ -1,0 +1,22 @@
+{
+  "name": "docker-container-manager-ui",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/awsSubhash/-Docker-Container-Manager-UI#readme",
+  "bugs": {
+    "url": "https://github.com/awsSubhash/-Docker-Container-Manager-UI/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/awsSubhash/-Docker-Container-Manager-UI.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": []
+}
