@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Container Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        async function fetchContainers() {
+            const response = await fetch('/containers');
+            const containers = await response.json();
+            const containerList = document.getElementById('containerList');
+            containerList.innerHTML = '';
+
+            if (containers.length === 0) {
+                containerList.innerHTML = '<p class="no-containers">No running containers.</p>';
+                return;
+            }
+
+            containers.forEach(container => {
+                const li = document.createElement('li');
+                li.innerHTML = `<strong>ID:</strong> ${container.Id.substring(0, 12)} 
+                                <strong>Name:</strong> ${container.Names[0]} 
+                                <strong>Status:</strong> <span class="status">${container.Status}</span>`;
+                containerList.appendChild(li);
+            });
+        }
+
+        async function killContainer() {
+            const containerId = document.getElementById('containerId').value;
+
+            if (!containerId) {
+                alert('Please enter a container ID.');
+                return;
+            }
+
+            const response = await fetch('/kill-container', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ containerId })
+            });
+
+            const result = await response.json();
+            alert(result.message || result.error);
+            fetchContainers();
+        }
+
+        window.onload = fetchContainers;
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Docker Container Manager</h1>
+        
+        <section class="container-list">
+            <h2>🔹 Running Containers</h2>
+            <ul id="containerList"></ul>
+        </section>
+
+        <section class="container-actions">
+            <h2>🛑 Kill a Container</h2>
+            <input type="text" id="containerId" placeholder="Enter Container ID">
+            <button onclick="killContainer()">Kill Container</button>
+        </section>
+    </div>
+</body>
+</html>
+
